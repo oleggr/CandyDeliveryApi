@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+
 from starlette.status import HTTP_400_BAD_REQUEST
 
 
@@ -23,4 +24,3 @@ async def user(user_id: int):
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
         )
-
