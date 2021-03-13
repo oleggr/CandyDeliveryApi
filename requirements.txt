@@ -1,0 +1,7 @@
+fastapi
+SQLAlchemy
+uvicorn
+pytest
+starlette
+mysql-connector-python
+pydantic
