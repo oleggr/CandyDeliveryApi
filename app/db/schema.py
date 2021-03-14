@@ -56,7 +56,7 @@ courier_to_region_table = Table(
     'courier_to_region',
     metadata,
     Column('courier_id', Integer, ForeignKey('couriers.courier_id'), primary_key=True),
-    Column('region_id', Integer, ForeignKey('regions.region_id'),  primary_key=True),
+    Column('region_id', Integer, ForeignKey('regions.region_id'), primary_key=True),
 )
 
 orders_assign_table = Table(
