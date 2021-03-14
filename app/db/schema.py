@@ -1,8 +1,8 @@
 from enum import Enum, unique
 
 from sqlalchemy import (
-    Column, Enum as MariaEnum, ForeignKey, ForeignKeyConstraint,
-    Integer, Float, TIMESTAMP, Boolean, MetaData, String, Table,
+    Column, Enum as MariaEnum, ForeignKey, Integer, Float,
+    TIMESTAMP, Boolean, MetaData, String, Table,
 )
 
 
