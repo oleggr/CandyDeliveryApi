@@ -5,3 +5,4 @@ pytest
 starlette
 mysql-connector-python
 pydantic
+alembic
