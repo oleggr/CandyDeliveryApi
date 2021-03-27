@@ -3,7 +3,7 @@ VERSION = $(shell python3 setup.py --version | tr '+' '-')
 PROJECT_NAMESPACE ?= Oleggr
 REGISTRY_IMAGE ?= $(PROJECT_NAMESPACE)/$(PROJECT_NAME)
 
-help:
+all:
 	@echo "make lint	- Check code with flake8"
 	@echo "make test	- Run tests"
 	@echo "make docker	- Run app and db docker containers"
@@ -15,7 +15,7 @@ lint:
 	flake8 tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
 test:
-	pytest
+	pytest -s
 
 local:
 	uvicorn app.main:app --reload
