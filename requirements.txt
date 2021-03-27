@@ -8,3 +8,5 @@ mysql-connector-python
 pydantic~=1.8.1
 alembic~=1.5.7
 aiomysql~=0.0.21
+asgi_lifespan
+httpx
