@@ -7,8 +7,6 @@ services:
     ports:
       - 8000:8000
     restart: always
-    environment:
-      DB_CONNECTION: "mysql+mysqlconnector://db_user:db_password@db_domain:3306/common"
     links:
       - db:db_domain
     depends_on:
