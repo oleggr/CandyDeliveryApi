@@ -3,5 +3,11 @@ from app.api.router import router
 from fastapi import FastAPI
 
 
-app = FastAPI()
-app.include_router(router)
+def get_application() -> FastAPI:
+    application = FastAPI()
+    application.include_router(router)
+
+    return application
+
+
+app = get_application()
