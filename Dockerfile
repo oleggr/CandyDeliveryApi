@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD /app/bin/uvicorn app.main:app --host=0.0.0.0
+CMD alembic upgrade head && /app/bin/uvicorn app.main:app --host=0.0.0.0
