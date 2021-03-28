@@ -25,3 +25,9 @@ docker:
 
 db:
 	docker-compose run -d --service-ports db
+
+dbconn:
+	mysql -h 127.0.0.1 -u db_user -pdb_password common
+
+alembic:
+	alembic upgrade head
