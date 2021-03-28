@@ -1,7 +1,7 @@
 from enum import Enum, unique
 
 from sqlalchemy import (
-    Column, Enum as MariaEnum, ForeignKey, Integer, Float,
+    Column, Enum as MariaEnum, Integer, Float,
     TIMESTAMP, Boolean, MetaData, String, Table,
 )
 
@@ -26,6 +26,12 @@ class CourierType(Enum):
     bike = 'bike'
     car = 'car'
 
+    def __repr__(self):
+        return "%s" % self._value_
+
+    def __str__(self):
+        return "%s" % self._value_
+
 
 couriers_table = Table(
     'couriers',
@@ -42,7 +48,7 @@ orders_table = Table(
     Column('region_id', Integer, nullable=False),
     Column('is_ready', Boolean, nullable=False, default=0),
     Column('complete_time', TIMESTAMP, nullable=True),
-    Column('assign_id', Integer, nullable=False),
+    Column('assign_id', Integer, nullable=True, default=-1),
 )
 
 regions_table = Table(
