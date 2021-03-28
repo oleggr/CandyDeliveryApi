@@ -1,5 +1,7 @@
 from pydantic import BaseModel, validator
 
+from app.db.schema import CourierType
+
 courier_types = {
     'foot': 1,
     'bike': 1,
@@ -9,7 +11,7 @@ courier_types = {
 
 class Courier(BaseModel):
     courier_id: int
-    courier_type: str
+    courier_type: CourierType
 
     @validator('courier_id')
     def courier_id_validation(cls, v: int):
@@ -18,8 +20,8 @@ class Courier(BaseModel):
         return v
 
     @validator('courier_type')
-    def courier_type_validation(cls, v: str):
-        if v not in courier_types:
+    def courier_type_validation(cls, v: CourierType):
+        if v not in CourierType:
             raise ValueError('Unknown courier type')
         return v
 
@@ -35,7 +37,7 @@ class CourierToRegion(BaseModel):
         return v
 
 
-class CourierInCreate(Courier):
+class CourierFull(Courier):
     regions: list
     working_hours: list
 
