@@ -1,4 +1,4 @@
-from app.api.router import router
+from app.api.routes.main import router
 
 from fastapi import FastAPI
 

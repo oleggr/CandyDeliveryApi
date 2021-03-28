@@ -4,7 +4,7 @@ from pydantic import BaseModel, validator
 
 
 class Band(BaseModel):
-    band_id: int
+    band_id: int = None
     start: str
     end: str
 
@@ -22,7 +22,7 @@ class WorkingBand(Band):
 
     @validator('courier_id')
     def courier_id_validation(cls, v: int):
-        if v >= 0 and isinstance(v, int):
+        if not (v >= 0 and isinstance(v, int)):
             raise ValueError('Id must be positive integer')
         return v
 
@@ -32,6 +32,6 @@ class DeliveryBand(Band):
 
     @validator('order_id')
     def order_id_validation(cls, v: int):
-        if v >= 0 and isinstance(v, int):
+        if not (v >= 0 and isinstance(v, int)):
             raise ValueError('Id must be positive integer')
         return v

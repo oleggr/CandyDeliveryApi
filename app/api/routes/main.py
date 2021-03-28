@@ -2,9 +2,11 @@ from http import HTTPStatus
 from fastapi import APIRouter, HTTPException
 
 from app.db.services.regions import RegionsService
+from app.api.routes import couriers
 
 
 router = APIRouter()
+router.include_router(couriers.router, tags=["couriers"], prefix="/couriers")
 
 
 @router.get(

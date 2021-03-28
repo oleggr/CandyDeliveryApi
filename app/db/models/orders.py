@@ -10,13 +10,13 @@ class Order(BaseModel):
 
     @validator('order_id', 'region_id')
     def id_validation(cls, v: int):
-        if v >= 0 and isinstance(v, int):
+        if not(v >= 0 and isinstance(v, int)):
             raise ValueError('Id must be positive integer')
         return v
 
     @validator('weight')
     def weight_validation(cls, v: float):
-        if v >= 0 and isinstance(v, float):
+        if not (v >= 0 and isinstance(v, float)):
             raise ValueError('Weight must be positive float')
         return v
 
@@ -29,6 +29,6 @@ class OrderAssign(BaseModel):
 
     @validator('courier_id', 'order_id')
     def id_validation(cls, v: int):
-        if v >= 0 and isinstance(v, int):
+        if not (v >= 0 and isinstance(v, int)):
             raise ValueError('Id must be positive integer')
         return v

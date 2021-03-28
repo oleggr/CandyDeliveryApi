@@ -39,10 +39,10 @@ orders_table = Table(
     metadata,
     Column('order_id', Integer, primary_key=True),
     Column('weight', Float, nullable=False),
-    Column('region_id', Integer, ForeignKey('regions.region_id'), nullable=False),
+    Column('region_id', Integer, nullable=False),
     Column('is_ready', Boolean, nullable=False, default=0),
     Column('complete_time', TIMESTAMP, nullable=True),
-    Column('assign_id', Integer, ForeignKey('orders_assign.assign_id'), nullable=False),
+    Column('assign_id', Integer, nullable=False),
 )
 
 regions_table = Table(
@@ -55,23 +55,23 @@ regions_table = Table(
 courier_to_region_table = Table(
     'courier_to_region',
     metadata,
-    Column('courier_id', Integer, ForeignKey('couriers.courier_id'), primary_key=True),
-    Column('region_id', Integer, ForeignKey('regions.region_id'), primary_key=True),
+    Column('courier_id', Integer, primary_key=True),
+    Column('region_id', Integer, primary_key=True),
 )
 
 orders_assign_table = Table(
     'orders_assign',
     metadata,
-    Column('assign_id', Integer, primary_key=True),
-    Column('courier_id', Integer, ForeignKey('couriers.courier_id'), nullable=False),
+    Column('assign_id', Integer, primary_key=True, autoincrement=True),
+    Column('courier_id', Integer, nullable=False),
     Column('assign_time', TIMESTAMP, nullable=True),
 )
 
 working_bands_table = Table(
     'working_bands',
     metadata,
-    Column('band_id', Integer, primary_key=True),
-    Column('courier_id', Integer, ForeignKey('couriers.courier_id'), nullable=False),
+    Column('band_id', Integer, primary_key=True, autoincrement=True),
+    Column('courier_id', Integer, nullable=False),
     Column('start', String(20), nullable=False),
     Column('end', String(20), nullable=False),
 )
@@ -79,8 +79,8 @@ working_bands_table = Table(
 delivery_bands_table = Table(
     'delivery_bands',
     metadata,
-    Column('band_id', Integer, primary_key=True),
-    Column('order_id', Integer, ForeignKey('orders.order_id'), nullable=False),
+    Column('band_id', Integer, primary_key=True, autoincrement=True),
+    Column('order_id', Integer, nullable=False),
     Column('start', String(20), nullable=False),
     Column('end', String(20), nullable=False),
 )
