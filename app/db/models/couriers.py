@@ -23,7 +23,7 @@ class Courier(BaseModel):
     def courier_type_validation(cls, v: CourierType):
         if v not in CourierType:
             raise ValueError('Unknown courier type')
-        return v
+        return str(v)
 
 
 class CourierToRegion(BaseModel):

@@ -1,5 +1,3 @@
-import time
-
 from sqlalchemy import and_
 
 from app.db.models.time_bands import WorkingBand
@@ -13,7 +11,8 @@ class CouriersService(AbstractService):
 
     @staticmethod
     async def is_courier_valid(courier: dict) -> bool:
-        if not ('courier_id' in courier
+        if not (
+                'courier_id' in courier
                 and courier['courier_id'] >= 0
                 and isinstance(courier['courier_id'], int)
         ):
@@ -132,8 +131,8 @@ class CouriersService(AbstractService):
         if 'courier_type' in update_fields:
             await self.execute(
                 couriers_table.update()
-                    .where(couriers_table.c.courier_id == courier_id)
-                    .values({'courier_type': update_fields['courier_type']})
+                .where(couriers_table.c.courier_id == courier_id)
+                .values({'courier_type': update_fields['courier_type']})
             )
 
         if 'regions' in update_fields:
