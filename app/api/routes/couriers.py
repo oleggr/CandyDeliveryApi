@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Body, Request
+from fastapi import APIRouter, Request
 from starlette import status
 from starlette.responses import JSONResponse
 
 from app.db.models.couriers import CourierFull
 from app.db.services.couriers import CouriersService
+
 
 router = APIRouter()
 
@@ -19,17 +20,10 @@ async def set_couriers(request: Request):
     unfilled = []
 
     for courier in couriers['data']:
-        try:
-            if not await CouriersService.is_courier_valid(courier):
-                unfilled.append({'id': courier['courier_id']})
-            else:
-                to_create.append({'id': courier['courier_id']})
-
-        except ValueError as e:
-            return JSONResponse(
-                {'unhandled exception': str(e)},
-                status_code=status.HTTP_400_BAD_REQUEST,
-            )
+        if not await CouriersService.is_courier_valid(courier):
+            unfilled.append({'id': courier['courier_id']})
+        else:
+            to_create.append({'id': courier['courier_id']})
 
     if len(unfilled) > 0:
         return JSONResponse(
@@ -65,6 +59,21 @@ async def update_courier(courier_id: int, request: Request):
     courier = await CouriersService().get_courier_full_data(courier_id)
 
     return JSONResponse(
-        courier.json(),
+        courier.dict(),
+        status_code=status.HTTP_201_CREATED,
+    )
+
+
+@router.get(
+    "/{courier_id}",
+    name='couriers:get-courier',
+    status_code=status.HTTP_200_OK
+)
+async def get_courier(courier_id: int):
+    courier = await CouriersService().get_courier_full_data(courier_id)
+    courier = courier.dict()
+
+    return JSONResponse(
+        courier,
         status_code=status.HTTP_201_CREATED,
     )
