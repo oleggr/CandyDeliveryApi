@@ -7,13 +7,13 @@ ok_orders = [
     {
         "order_id": 1,
         "weight": 0.23,
-        "region": 12,
+        "region_id": 12,
         "delivery_hours": ["09:00-18:00"]
     },
     {
         "order_id": 2,
         "weight": 25,
-        "region": 2,
+        "region_id": 2,
         "delivery_hours": ["00:00-01:00", "12:12-13:13"]
     }
 ]
@@ -22,13 +22,13 @@ not_ok_orders = [
     {
         "order_id": 1,
         "weight": 0.0001,
-        "region": 12,
+        "region_id": 12,
         "delivery_hours": ["09:00-18:00"]
     },
     {
         "order_id": 2,
         "weight": 25,
-        "region": 2,
+        "region_id": 2,
     },
     {
         "order_id": 3,
@@ -37,18 +37,18 @@ not_ok_orders = [
     },
     {
         "order_id": 4,
-        "region": 12,
+        "region_id": 12,
         "delivery_hours": ["09:00-18:00"]
     },
     {
         "weight": 3,
-        "region": 12,
+        "region_id": 12,
         "delivery_hours": ["09:00-18:00"]
     },
     {
         "order_id": 5,
         "weight": 51,
-        "region": 12,
+        "region_id": 12,
         "delivery_hours": ["09:00-18:00"]
     },
 ]
