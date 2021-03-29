@@ -4,7 +4,7 @@ from pydantic import BaseModel, validator, Field
 class Order(BaseModel):
     order_id: int
     weight: float
-    region_id: int = Field(None, alias='region')
+    region_id: int = Field(alias='region')
     is_ready: bool = False
     complete_time: int = None
     assign_id: int = None
@@ -17,7 +17,7 @@ class Order(BaseModel):
 
     @validator('weight')
     def weight_validation(cls, v: float):
-        if not (v >= 0 and isinstance(v, float)):
+        if not (50 >= v >= 0.01 and isinstance(v, float)):
             raise ValueError('Weight must be positive float')
         return v
 
