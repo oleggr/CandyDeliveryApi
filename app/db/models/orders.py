@@ -4,7 +4,7 @@ from pydantic import BaseModel, validator, Field
 class Order(BaseModel):
     order_id: int
     weight: float
-    region_id: int = Field(alias='region')
+    region_id: int
     is_ready: bool = False
     complete_time: int = None
     assign_id: int = None
