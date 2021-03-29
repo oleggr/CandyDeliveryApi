@@ -113,8 +113,10 @@ class OrdersService(AbstractService):
             order_id: int,
             update_fields: dict
     ):
-        if not await self.order_update_validation(update_fields) \
-                or not await self.get_order_by_id(order_id):
+        if not (
+                await self.order_update_validation(update_fields)
+                and await self.get_order_by_id(order_id)
+        ):
             raise ValueError('Order update unsuccessful')
 
         if 'delivery_hours' not in update_fields:
@@ -225,6 +227,7 @@ class OrdersService(AbstractService):
             orders_assign_table.select().where(
                 and_(
                     orders_assign_table.c.courier_id == courier_id,
+                    orders_assign_table.c.is_finished == 0
                 )
             )
         )
@@ -331,3 +334,10 @@ class OrdersService(AbstractService):
                     return True
 
         return False
+
+    async def update_assign(self, assign_id: int, update_fields: dict):
+        await self.execute(
+            orders_assign_table.update()
+            .where(orders_assign_table.c.assign_id == assign_id)
+            .values(update_fields)
+        )

@@ -1,4 +1,6 @@
 from datetime import datetime
+import dateutil.parser
+
 from fastapi import APIRouter, Request
 from starlette import status
 from starlette.responses import JSONResponse
@@ -81,8 +83,65 @@ async def assign_orders(request: Request):
 
 @router.post(
     "/complete",
-    name='orders:complete-orders',
+    name='orders:complete-order',
     status_code=status.HTTP_200_OK
 )
 async def complete_orders(request: Request):
-    pass
+    error_message = ''
+    response = await request.json()
+
+    courier_id = response['courier_id']
+    order_id = response['order_id']
+    complete_time = int(
+        dateutil.parser
+        .parse(response['complete_time'])
+        .timestamp()
+    )
+
+    orders_service = OrdersService()
+
+    order = await orders_service.get_order_by_id(order_id)
+    order_assign = await orders_service.get_orders_assign(courier_id)
+
+    if not orders_service.get_order_by_id(order_id):
+        error_message = 'order not found'
+    elif order.assign_id != order_assign.assign_id:
+        error_message = 'order assigned to another courier'
+    elif order.assign_id == orders_service.default_assign_id:
+        error_message = 'order is unassigned'
+
+    if error_message != '':
+        return JSONResponse(
+            {'value error': error_message},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        new_fields = {
+            'is_ready': 1,
+            'complete_time': complete_time
+        }
+
+        assigned_orders = await orders_service.get_unfinished_assigned_orders(courier_id)
+        if not len(assigned_orders[0]) > 0:
+            await orders_service.update_assign(
+                order_assign.assign_id,
+                {
+                    'is_finished': 1
+                }
+            )
+
+        await orders_service.update_order(
+            order.order_id,
+            new_fields
+        )
+
+        return JSONResponse(
+            {'order_id': order.order_id},
+            status_code=status.HTTP_200_OK,
+        )
+    except ValueError as e:
+        return JSONResponse(
+            {'value error': str(e)},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
