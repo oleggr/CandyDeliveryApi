@@ -71,6 +71,7 @@ orders_assign_table = Table(
     Column('assign_id', Integer, primary_key=True, autoincrement=True),
     Column('courier_id', Integer, nullable=False),
     Column('assign_time', Integer, nullable=True),
+    Column('is_finished', Boolean, nullable=True, default=0)
 )
 
 working_bands_table = Table(
