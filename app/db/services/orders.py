@@ -2,7 +2,7 @@ import time
 
 from sqlalchemy import and_
 
-from app.db.models.couriers import courier_types
+from app.db.models.couriers import courier_types, CourierFull
 from app.db.models.orders import OrderFull, Order, OrderAssign
 from app.db.models.time_bands import DeliveryBand
 from app.db.schema import orders_table, delivery_bands_table, orders_assign_table
@@ -74,8 +74,7 @@ class OrdersService(AbstractService):
         if (
                 'assign_id' in new_order
                 and not (
-                    new_order['assign_id'] >= 0
-                    and isinstance(new_order['assign_id'], int)
+                    isinstance(new_order['assign_id'], int)
                 )
         ):
             return False
@@ -295,7 +294,6 @@ class OrdersService(AbstractService):
         max_weight = courier_types[courier.courier_type]
 
         for order in orders:
-
             delivery_availability = await self.check_delivery_availability(
                 order.delivery_hours,
                 courier.working_hours
@@ -341,3 +339,25 @@ class OrdersService(AbstractService):
             .where(orders_assign_table.c.assign_id == assign_id)
             .values(update_fields)
         )
+
+    async def unassign_orders(self, courier: CourierFull):
+        max_weight = courier_types[courier.courier_type]
+        assigned_orders = await self.get_unfinished_assigned_orders(courier.courier_id)
+
+        for order_id in assigned_orders[0]:
+            order = await self.get_order_full_data(order_id)
+
+            delivery_availability = await self.check_delivery_availability(
+                order.delivery_hours,
+                courier.working_hours
+            )
+
+            if not (
+                    order.weight <= max_weight
+                    and order.region_id in courier.regions
+                    and delivery_availability
+            ):
+                await self.update_order(
+                    order.order_id,
+                    {'assign_id': self.default_assign_id}
+                )
