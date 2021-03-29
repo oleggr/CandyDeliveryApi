@@ -18,13 +18,17 @@ class RegionsService(AbstractService):
             'region_name': region.region_name,
         })
 
-        await self.insert(query)
+        await self.execute(query)
 
-    async def get_region_by_id(self, region_id: int) -> Region:
+    async def get_region_by_id(self, region_id: int) -> [Region, bool]:
         query = regions_table.select().where(
             and_(
                 regions_table.c.region_id == region_id,
             )
         )
         region_row = await self.select(query)
-        return Region(**region_row)
+
+        if region_row:
+            return Region(**region_row)
+        else:
+            return False

@@ -1,15 +1,10 @@
-# import os
-import uuid
 from random import random
 
-import alembic.config
 import pytest
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 from fastapi import FastAPI
-from sqlalchemy_utils import create_database, drop_database
 
-from app.db.main import DbConfig
 from app.db.models.regions import Region
 
 #

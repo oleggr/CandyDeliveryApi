@@ -1,9 +1,6 @@
-import asyncio
-import asynctest
+import pytest
 from fastapi import FastAPI
 from httpx import AsyncClient
-
-from app.db.models.regions import Region
 
 
 def test_first():
@@ -11,6 +8,7 @@ def test_first():
     assert a == 1
 
 
+@pytest.mark.skip(reason="test not finished")
 async def test_hello(
         app: FastAPI,
         client: AsyncClient

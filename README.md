@@ -10,6 +10,7 @@ REST API project for candy delivery store. Developed as entrance test for Yandex
 - [Quickstart](#quickstart)
 - [Run tests](#run-tests)
 - [What's inside](#whats-inside)
+- [Routes](#routes)
 - [Contacts](#contacts)
 
 
@@ -61,6 +62,22 @@ app
 │   └── schema.py    - description db structure
 └── main.py          - FastAPI application creation and configuration
 ```
+
+[Up](#candydeliveryapi)
+
+
+### Routes
+
+```
+POST    /couriers                Add one or several couriers
+PATCH   /couriers/{courier_id}   Update info about courier
+GET     /couriers/{courier_id}   Get info about courier
+
+POST    /orders                  Add one or several couriers
+POST    /orders/assign           Assign all available orders to courier
+POST    /orders/complete         Mark order as completed
+```
+
 
 [Up](#candydeliveryapi)
 
