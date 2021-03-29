@@ -19,8 +19,5 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --exclude=app/db/migrations/ --max-complexity=10 --max-line-length=127 --statistics
-
-      - name: GitHub Action for Flake8
-        uses: cclauss/GitHub-Action-for-Flake8@v0.5.0
+          python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          python -m flake8 . --count --exclude=app/db/migrations/ --max-complexity=10 --max-line-length=127 --statistics
