@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 from sqlalchemy import (
     Column, Enum as MariaEnum, Integer, Float,
-    TIMESTAMP, Boolean, MetaData, String, Table,
+    Boolean, MetaData, String, Table,
 )
 
 
@@ -47,7 +47,7 @@ orders_table = Table(
     Column('weight', Float, nullable=False),
     Column('region_id', Integer, nullable=False),
     Column('is_ready', Boolean, nullable=False, default=0),
-    Column('complete_time', TIMESTAMP, nullable=True, default=0),
+    Column('complete_time', Integer, nullable=True, default=0),
     Column('assign_id', Integer, nullable=True, default=-1),
 )
 
@@ -70,7 +70,7 @@ orders_assign_table = Table(
     metadata,
     Column('assign_id', Integer, primary_key=True, autoincrement=True),
     Column('courier_id', Integer, nullable=False),
-    Column('assign_time', TIMESTAMP, nullable=True),
+    Column('assign_time', Integer, nullable=True),
 )
 
 working_bands_table = Table(

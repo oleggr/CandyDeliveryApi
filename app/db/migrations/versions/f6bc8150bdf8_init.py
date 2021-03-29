@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 6767dfdb5460
+Revision ID: f6bc8150bdf8
 Revises: 
-Create Date: 2021-03-29 09:48:05.940870
+Create Date: 2021-03-29 10:04:45.307475
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6767dfdb5460'
+revision = 'f6bc8150bdf8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,14 +40,14 @@ def upgrade():
     sa.Column('weight', sa.Float(), nullable=False),
     sa.Column('region_id', sa.Integer(), nullable=False),
     sa.Column('is_ready', sa.Boolean(), nullable=False),
-    sa.Column('complete_time', sa.TIMESTAMP(), nullable=True),
+    sa.Column('complete_time', sa.Integer(), nullable=True),
     sa.Column('assign_id', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('order_id', name=op.f('pk__orders'))
     )
     op.create_table('orders_assign',
     sa.Column('assign_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('courier_id', sa.Integer(), nullable=False),
-    sa.Column('assign_time', sa.TIMESTAMP(), nullable=True),
+    sa.Column('assign_time', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('assign_id', name=op.f('pk__orders_assign'))
     )
     op.create_table('regions',
