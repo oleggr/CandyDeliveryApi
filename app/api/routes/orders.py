@@ -36,8 +36,6 @@ async def set_orders(request: Request):
         )
     else:
         for order in orders['data']:
-            print('ORDER BAAA: ', order)
-
             await orders_service.add_order(
                 OrderFull(**order)
             )
