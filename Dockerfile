@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD alembic upgrade head && /app/bin/uvicorn app.main:app --host=0.0.0.0 --port=8000
+CMD /app/bin/python -m alembic upgrade head && /app/bin/uvicorn app.main:app --host=0.0.0.0 --port=8000
