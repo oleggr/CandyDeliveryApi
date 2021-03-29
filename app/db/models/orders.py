@@ -25,10 +25,9 @@ class Order(BaseModel):
 class OrderAssign(BaseModel):
     assign_id: int
     courier_id: int
-    order_id: int
     assign_time: int
 
-    @validator('courier_id', 'order_id')
+    @validator('courier_id')
     def id_validation(cls, v: int):
         if not (v >= 0 and isinstance(v, int)):
             raise ValueError('Id must be positive integer')
