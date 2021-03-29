@@ -138,7 +138,7 @@ class CouriersService(AbstractService):
         if 'regions' in update_fields:
             await self.execute(
                 courier_to_region_table.delete().where(
-                    couriers_table.c.courier_id == courier_id
+                    courier_to_region_table.c.courier_id == courier_id
                 )
             )
 

@@ -31,9 +31,9 @@ class OrdersService(AbstractService):
             return False
 
         if not (
-                'region' in order
-                and order['region'] >= 0
-                and isinstance(order['region'], int)
+                'region_id' in order
+                and order['region_id'] >= 0
+                and isinstance(order['region_id'], int)
         ):
             return False
 
@@ -59,8 +59,8 @@ class OrdersService(AbstractService):
         if (
                 'region_id' in new_order
                 and not (
-                    new_order['region'] >= 0
-                    and isinstance(new_order['region'], int)
+                    new_order['region_id'] >= 0
+                    and isinstance(new_order['region_id'], int)
                 )
         ):
             return False
@@ -329,8 +329,8 @@ class OrdersService(AbstractService):
                 min_d = band[0]
                 max_d = band[0]
 
-                if min_w <= min_d \
-                        and max_w >= max_d:
+                if min_w <= max_d <= max_w \
+                        or min_w <= min_d <= max_w:
                     return True
 
         return False
