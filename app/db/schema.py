@@ -47,7 +47,7 @@ orders_table = Table(
     Column('weight', Float, nullable=False),
     Column('region_id', Integer, nullable=False),
     Column('is_ready', Boolean, nullable=False, default=0),
-    Column('complete_time', TIMESTAMP, nullable=True),
+    Column('complete_time', TIMESTAMP, nullable=True, default=0),
     Column('assign_id', Integer, nullable=True, default=-1),
 )
 
