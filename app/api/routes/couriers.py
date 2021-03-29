@@ -36,10 +36,10 @@ async def set_couriers(request: Request):
             await couriers_service.add_courier(
                 CourierFull(**courier)
             )
-            return JSONResponse(
-                {'couriers': to_create},
-                status_code=status.HTTP_201_CREATED,
-            )
+        return JSONResponse(
+            {'couriers': to_create},
+            status_code=status.HTTP_201_CREATED,
+        )
 
 
 @router.patch(
