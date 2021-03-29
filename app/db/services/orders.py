@@ -322,12 +322,12 @@ class OrdersService(AbstractService):
         for working_band in working_hours:
             band = working_band.split('-')
             min_w = band[0]
-            max_w = band[0]
+            max_w = band[1]
 
             for delivery_band in delivery_hours:
                 band = delivery_band.split('-')
                 min_d = band[0]
-                max_d = band[0]
+                max_d = band[1]
 
                 if min_w <= max_d <= max_w \
                         or min_w <= min_d <= max_w:
