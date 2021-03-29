@@ -6,8 +6,11 @@ REGISTRY_IMAGE ?= $(PROJECT_NAMESPACE)/$(PROJECT_NAME)
 all:
 	@echo "make lint	- Check code with flake8"
 	@echo "make test	- Run tests"
+	@echo "make local	- Run app locally"
 	@echo "make docker	- Run app and db docker containers"
 	@echo "make db		- Run only db container"
+	@echo "make dbconn	- Connect to db"
+	@echo "make alembic	- Run alembic migrations"
 	@exit 0
 
 lint:

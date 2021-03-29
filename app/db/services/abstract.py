@@ -1,10 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from app.db.config import DbConfig
+
 
 class AbstractService:
 
-    conn_string = "mysql+mysqlconnector://db_user:db_password@127.0.0.1:3306/common"
+    conn_string = DbConfig.get_conn_string()
 
     def __init__(self) -> None:
         self.engine = create_engine(self.conn_string, echo=True)

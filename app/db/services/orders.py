@@ -2,7 +2,7 @@ import time
 
 from sqlalchemy import and_
 
-from app.db.models.couriers import courier_types
+from app.db.models.couriers import courier_types, CourierFull
 from app.db.models.orders import OrderFull, Order, OrderAssign
 from app.db.models.time_bands import DeliveryBand
 from app.db.schema import orders_table, delivery_bands_table, orders_assign_table
@@ -31,9 +31,9 @@ class OrdersService(AbstractService):
             return False
 
         if not (
-                'region' in order
-                and order['region'] >= 0
-                and isinstance(order['region'], int)
+                'region_id' in order
+                and order['region_id'] >= 0
+                and isinstance(order['region_id'], int)
         ):
             return False
 
@@ -59,8 +59,8 @@ class OrdersService(AbstractService):
         if (
                 'region_id' in new_order
                 and not (
-                    new_order['region'] >= 0
-                    and isinstance(new_order['region'], int)
+                    new_order['region_id'] >= 0
+                    and isinstance(new_order['region_id'], int)
                 )
         ):
             return False
@@ -74,8 +74,7 @@ class OrdersService(AbstractService):
         if (
                 'assign_id' in new_order
                 and not (
-                    new_order['assign_id'] >= 0
-                    and isinstance(new_order['assign_id'], int)
+                    isinstance(new_order['assign_id'], int)
                 )
         ):
             return False
@@ -295,7 +294,6 @@ class OrdersService(AbstractService):
         max_weight = courier_types[courier.courier_type]
 
         for order in orders:
-
             delivery_availability = await self.check_delivery_availability(
                 order.delivery_hours,
                 courier.working_hours
@@ -322,15 +320,15 @@ class OrdersService(AbstractService):
         for working_band in working_hours:
             band = working_band.split('-')
             min_w = band[0]
-            max_w = band[0]
+            max_w = band[1]
 
             for delivery_band in delivery_hours:
                 band = delivery_band.split('-')
                 min_d = band[0]
-                max_d = band[0]
+                max_d = band[1]
 
-                if min_w <= min_d \
-                        and max_w >= max_d:
+                if min_w <= max_d <= max_w \
+                        or min_w <= min_d <= max_w:
                     return True
 
         return False
@@ -341,3 +339,25 @@ class OrdersService(AbstractService):
             .where(orders_assign_table.c.assign_id == assign_id)
             .values(update_fields)
         )
+
+    async def unassign_orders(self, courier: CourierFull):
+        max_weight = courier_types[courier.courier_type]
+        assigned_orders = await self.get_unfinished_assigned_orders(courier.courier_id)
+
+        for order_id in assigned_orders[0]:
+            order = await self.get_order_full_data(order_id)
+
+            delivery_availability = await self.check_delivery_availability(
+                order.delivery_hours,
+                courier.working_hours
+            )
+
+            if not (
+                    order.weight <= max_weight
+                    and order.region_id in courier.regions
+                    and delivery_availability
+            ):
+                await self.update_order(
+                    order.order_id,
+                    {'assign_id': self.default_assign_id}
+                )

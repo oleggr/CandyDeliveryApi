@@ -35,6 +35,16 @@ docker-compose run -d --service-ports app
 docker-compose run -d --service-ports db
 ```
 
+Or using make commands:
+
+1. Install requirements
+2. Run db container with: 
+```make db```
+3. Run alembic migrations:
+```make alembic```
+4. Run app locally:
+```make local```
+
 [Up](#candydeliveryapi)
 
 
@@ -59,8 +69,8 @@ app
 ├── db               - db related modules
 │   ├── migrations   - generated alembic migrations
 │   └── models       - db models
-│   └── schema.py    - description db structure
-└── main.py          - FastAPI application creation and configuration
+│   └── schema.py    - description of db structure
+└── main.py          - FastAPI application: creation and configuration
 ```
 
 [Up](#candydeliveryapi)

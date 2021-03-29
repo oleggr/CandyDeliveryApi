@@ -24,6 +24,10 @@ async def set_orders(request: Request):
     orders_service = OrdersService()
 
     for order in orders['data']:
+        if 'region' in order:
+            order['region_id'] = order['region']
+            del order['region']
+
         if not await orders_service.is_order_valid(order):
             unfilled.append({'id': order['order_id']})
         else:
@@ -39,10 +43,10 @@ async def set_orders(request: Request):
             await orders_service.add_order(
                 OrderFull(**order)
             )
-            return JSONResponse(
-                {'orders': to_create},
-                status_code=status.HTTP_201_CREATED,
-            )
+        return JSONResponse(
+            {'orders': to_create},
+            status_code=status.HTTP_201_CREATED,
+        )
 
 
 @router.post(
@@ -103,10 +107,10 @@ async def complete_orders(request: Request):
 
     if not orders_service.get_order_by_id(order_id):
         error_message = 'order not found'
-    elif order.assign_id != order_assign.assign_id:
-        error_message = 'order assigned to another courier'
     elif order.assign_id == orders_service.default_assign_id:
         error_message = 'order is unassigned'
+    elif order.assign_id != order_assign.assign_id:
+        error_message = 'order assigned to another courier'
 
     if error_message != '':
         return JSONResponse(
