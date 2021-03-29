@@ -1,10 +1,6 @@
-import asyncio
-import asynctest
 import pytest
 from fastapi import FastAPI
 from httpx import AsyncClient
-
-from app.db.models.regions import Region
 
 
 def test_first():

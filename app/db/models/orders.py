@@ -42,4 +42,3 @@ class OrderFull(Order):
         if not len(v) > 0:
             raise ValueError('Field can\'t be empty')
         return v
-

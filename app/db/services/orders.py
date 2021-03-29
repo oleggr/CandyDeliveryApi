@@ -2,7 +2,7 @@ import time
 
 from sqlalchemy import and_
 
-from app.db.models.couriers import courier_types, CourierFull
+from app.db.models.couriers import courier_types
 from app.db.models.orders import OrderFull, Order, OrderAssign
 from app.db.models.time_bands import DeliveryBand
 from app.db.schema import orders_table, delivery_bands_table, orders_assign_table
@@ -31,14 +31,17 @@ class OrdersService(AbstractService):
         ):
             return False
 
-        if not ('region' in order
+        if not (
+                'region' in order
                 and order['region'] >= 0
                 and isinstance(order['region'], int)
         ):
             return False
 
-        if not ('delivery_hours' in order
-                and len(order['delivery_hours']) > 0):
+        if not (
+                'delivery_hours' in order
+                and len(order['delivery_hours']) > 0
+        ):
             return False
 
         return True
@@ -118,8 +121,8 @@ class OrdersService(AbstractService):
         if 'delivery_hours' not in update_fields:
             await self.execute(
                 orders_table.update()
-                    .where(orders_table.c.order_id == order_id)
-                    .values(update_fields)
+                .where(orders_table.c.order_id == order_id)
+                .values(update_fields)
             )
 
         else:
@@ -129,8 +132,8 @@ class OrdersService(AbstractService):
             if len(update_fields) > 0:
                 await self.execute(
                     orders_table.update()
-                        .where(orders_table.c.order_id == order_id)
-                        .values(update_fields)
+                    .where(orders_table.c.order_id == order_id)
+                    .values(update_fields)
                 )
 
                 await self.execute(
