@@ -26,7 +26,6 @@ class OrdersService(AbstractService):
 
         if not (
                 'weight' in order
-                and isinstance(order['weight'], float)
                 and 0.01 <= order['weight'] <= 50
         ):
             return False
@@ -253,6 +252,8 @@ class OrdersService(AbstractService):
         orders = []
 
         order_assign = await self.get_orders_assign(courier_id)
+        if not order_assign:
+            return [[], None]
         assign_id = order_assign.assign_id
 
         session = await self.get_session()
@@ -278,8 +279,12 @@ class OrdersService(AbstractService):
         if len(already_assigned[0]) > 0:
             return already_assigned
 
-        courier = await couriers_service.get_courier_full_data(courier_id)
         orders = await self.get_unassigned_orders()
+
+        if not len(orders) > 0:
+            raise ValueError('available orders absent')
+
+        courier = await couriers_service.get_courier_full_data(courier_id)
 
         await self.create_orders_assign(courier.courier_id)
         order_assign = await self.get_orders_assign(courier.courier_id)

@@ -23,7 +23,7 @@ class Order(BaseModel):
 
 
 class OrderAssign(BaseModel):
-    assign_id: int
+    assign_id: int = None
     courier_id: int
     assign_time: int
 
