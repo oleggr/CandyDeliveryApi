@@ -94,7 +94,7 @@ class CouriersService(AbstractService):
     async def get_courier_full_data(
             self,
             courier_id: int
-    ):
+    ) -> CourierFull:
         courier = await self.get_courier_by_id(courier_id)
         regions = await self.get_courier_regions(courier_id)
         bands = await self.get_courier_working_bands(courier_id)
@@ -151,7 +151,7 @@ class CouriersService(AbstractService):
         if 'working_hours' in update_fields:
             await self.execute(
                 working_bands_table.delete().where(
-                    couriers_table.c.courier_id == courier_id
+                    working_bands_table.c.courier_id == courier_id
                 )
             )
 
@@ -182,7 +182,7 @@ class CouriersService(AbstractService):
             self,
             courier_id: int,
             region_id: int
-    ):
+    ) -> [CourierToRegion, bool]:
         courier_to_region_row = await self.select(
             courier_to_region_table.select().where(
                 and_(
@@ -200,7 +200,7 @@ class CouriersService(AbstractService):
     async def get_courier_regions(
             self,
             courier_id: int
-    ):
+    ) -> list:
         regions = []
 
         session = await self.get_session()
@@ -216,7 +216,7 @@ class CouriersService(AbstractService):
     async def get_courier_working_bands(
             self,
             courier_id: int
-    ):
+    ) -> list:
         bands = []
 
         session = await self.get_session()

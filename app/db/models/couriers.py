@@ -3,9 +3,9 @@ from pydantic import BaseModel, validator
 from app.db.schema import CourierType
 
 courier_types = {
-    'foot': 1,
-    'bike': 1,
-    'car': 1,
+    'foot': 10,
+    'bike': 15,
+    'car': 50,
 }
 
 

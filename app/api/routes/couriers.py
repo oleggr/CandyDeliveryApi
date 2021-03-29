@@ -18,9 +18,10 @@ async def set_couriers(request: Request):
     couriers = await request.json()
     to_create = []
     unfilled = []
+    couriers_service = CouriersService()
 
     for courier in couriers['data']:
-        if not await CouriersService.is_courier_valid(courier):
+        if not await couriers_service.is_courier_valid(courier):
             unfilled.append({'id': courier['courier_id']})
         else:
             to_create.append({'id': courier['courier_id']})
@@ -32,7 +33,7 @@ async def set_couriers(request: Request):
         )
     else:
         for courier in couriers['data']:
-            await CouriersService().add_courier(
+            await couriers_service.add_courier(
                 CourierFull(**courier)
             )
             return JSONResponse(
