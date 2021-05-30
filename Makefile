@@ -18,6 +18,9 @@ lint:
 	flake8 tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
 test:
+	pytest --disable-warnings
+
+testp:
 	pytest -s
 
 local:
