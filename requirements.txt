@@ -3,9 +3,11 @@ SQLAlchemy~=1.3.23
 sqlalchemy_utils
 uvicorn
 pytest~=6.2.2
+pytest-asyncio
 starlette~=0.13.6
 mysql-connector-python
 pydantic~=1.8.1
 alembic~=1.5.7
 aiomysql~=0.0.21
 python-dateutil~=2.8.1
+requests
