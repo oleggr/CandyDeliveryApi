@@ -46,3 +46,26 @@ def test_successful_orders_post(client: TestClient):
     response = client.post('/orders', json=json_orders)
     assert response.status_code == 201
     assert response.json() == {'orders': [{'id': 1}, {'id': 2}, {'id': 3}, {'id': 4}, {'id': 5}, {'id': 6}]}
+
+
+def test_successful_couriers_post(client: TestClient):
+    json_orders = \
+        {
+            "data": [
+                {
+                    "courier_id": 1,
+                    "courier_type": "car",
+                    "regions": [1, 2, 12],
+                    "working_hours": ["09:00-18:00"]
+                },
+                {
+                    "courier_id": 2,
+                    "courier_type": "foot",
+                    "regions": [3, 5, 7],
+                    "working_hours": ["16:00-22:00"]
+                },
+            ]
+        }
+    response = client.post('/couriers', json=json_orders)
+    assert response.status_code == 201
+    assert response.json() == {'couriers': [{'id': 1}, {'id': 2}]}
