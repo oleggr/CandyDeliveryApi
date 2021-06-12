@@ -1,0 +1,55 @@
+{% block title %}
+
+<title>Просмотр курьера</title>
+
+{% endblock %}
+
+
+{% block styles %}
+
+    <style>
+    .btn-group button {
+        background-color: #4CAF50; /* Green background */
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+        margin: auto;
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+        background-color: #3e8e41;
+    }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1 align="center">Просмотр курьера</h1>
+
+<table width="100%">
+    <tr><td width="20%"> Courier ID: </td> <td> {{ courier.courier_id }} </td> </tr>
+    <tr><td> Type: </td> <td> {{ courier.courier_type }} </td> </tr>
+    <tr><td> Regions: </td> <td> {{ courier.regions }} </td> </tr>
+    <tr><td> Working hours: </td> <td> {{ courier.working_hours }} </td> </tr>
+</table>
+
+<br>
+
+<div class="btn-group">
+    <button onclick="window.location.href='http://localhost:8000/web/couriers/watch/menu';">Назад</button>
+</div>
+
+{% endblock %}
+
+
+

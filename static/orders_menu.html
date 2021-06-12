@@ -1,0 +1,56 @@
+{% block title %}
+
+<title>Меню заказов</title>
+
+{% endblock %}
+
+
+{% block styles %}
+
+    <style>
+    .btn-group button {
+        background-color: #4CAF50; /* Green background */
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+        margin: auto;
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+        background-color: #3e8e41;
+    }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1 align="center">О заказах</h1>
+
+<div class="btn-group">
+    <button onclick="window.location.href='orders_add.html';">Сделать заказ</button>
+    <button onclick="window.location.href='orders_assign.html';">Назначить заказы</button>
+    <button onclick="window.location.href='orders_update.html';">Завершить заказы</button>
+</div>
+
+<br>
+
+<div class="btn-group">
+    <button onclick="window.location.href='http://localhost:8000/web/main';">На главную</button>
+</div>
+
+{% endblock %}
+
+
+
+
+

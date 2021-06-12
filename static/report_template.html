@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Report</title>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <h1> Report for {{ datetime }}</h1>
+        </div>
+
+        <hr>
+
+        <div class="container">
+            <h2>Couriers:</h2>
+
+
+
+            {% for courier in couriers %}
+            <table width="100%">
+                <tr><td width="20%"> Courier ID: </td> <td> {{ courier.courier_id }} </td> </tr>
+                <tr><td> Type: </td> <td> {{ courier.courier_type }} </td> </tr>
+                <tr><td> Regions: </td> <td> {{ courier.regions }} </td> </tr>
+                <tr><td> Working hours: </td> <td> {{ courier.working_hours }} </td> </tr>
+            </table>
+            <br>
+            {% endfor %}
+
+
+
+        </div>
+
+        <div class="container">
+            <br>
+            <h2>Orders:</h2>
+
+            {% for order in orders %}
+
+            <table width="100%">
+                <tr><td width="20%"> Order ID: </td> <td> {{ order.order_id }} </td> </tr>
+                <tr><td> Weight: </td> <td> {{ order.weight }} </td> </tr>
+                <tr><td> Region: </td> <td> {{ order.region_id }} </td> </tr>
+                <tr><td> Is done: </td> <td> {{ order.is_ready }} </td> </tr>
+                <tr><td> Complete time: </td> <td> {{ order.complete_time }} </td> </tr>
+                <tr><td> Assigned courier: </td> <td> {{ order.assign_id }} </td> </tr>
+                <tr><td> Delivery hours: </td> <td> {{ order.delivery_hours }} </td> </tr>
+            </table>
+            <br>
+            {% endfor %}
+
+        </div>
+
+        <hr>
+
+        <div class="container">
+            MPEI 2021
+        </div>
+
+    </body>
+
+</html>
