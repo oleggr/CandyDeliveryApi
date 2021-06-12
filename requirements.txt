@@ -11,3 +11,7 @@ alembic~=1.5.7
 aiomysql~=0.0.21
 python-dateutil~=2.8.1
 requests
+jinja2
+weasyprint
+aiofiles
+xlsxwriter
