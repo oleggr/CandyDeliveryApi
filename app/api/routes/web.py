@@ -43,6 +43,52 @@ async def get_couriers(request: Request):
 
 
 @router.get(
+    "/couriers/add/menu",
+    name='web:add-courier',
+    status_code=status.HTTP_200_OK
+)
+async def add_courier(request: Request):
+    return templates.TemplateResponse("couriers_add.html", {"request": request})
+
+
+@router.get(
+    "/couriers/add",
+    name='web:add-courier',
+    status_code=status.HTTP_200_OK
+)
+async def add_courier(courier_id, courier_type, regions, working_hours, request: Request):
+
+    args = {
+        'courier_id': courier_id,
+        'courier_type': courier_type,
+        'regions': regions,
+        'working_hours': working_hours,
+    }
+
+    print(args)
+
+    # return templates.TemplateResponse("couriers_menu.html", {"request": request})
+
+
+@router.get(
+    "/couriers/update/menu",
+    name='web:add-courier',
+    status_code=status.HTTP_200_OK
+)
+async def add_courier(request: Request):
+    return templates.TemplateResponse("couriers_update.html", {"request": request})
+
+
+@router.get(
+    "/couriers/update",
+    name='web:add-courier',
+    status_code=status.HTTP_200_OK
+)
+async def add_courier(request: Request):
+    return templates.TemplateResponse("couriers_menu.html", {"request": request})
+
+
+@router.get(
     "/couriers/watch/menu",
     name='web:couriers-menu',
     status_code=status.HTTP_200_OK

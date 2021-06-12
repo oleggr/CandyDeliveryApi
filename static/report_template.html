@@ -7,6 +7,30 @@
         <title>Report</title>
     </head>
 
+    <style>
+
+        .data-table td {
+            text-align: center;
+        }
+
+        .data-table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        td, th {
+          padding: 5px;
+        }
+    </style>
+
     <body>
 
         <div class="container">
@@ -18,17 +42,27 @@
         <div class="container">
             <h2>Couriers:</h2>
 
+            <table class='data-table'>
+                <tr><th>courier_id</th> <th>type</th> <th>regions</th> <th>working hours</th></tr>
 
 
-            {% for courier in couriers %}
-            <table width="100%">
-                <tr><td width="20%"> Courier ID: </td> <td> {{ courier.courier_id }} </td> </tr>
-                <tr><td> Type: </td> <td> {{ courier.courier_type }} </td> </tr>
-                <tr><td> Regions: </td> <td> {{ courier.regions }} </td> </tr>
-                <tr><td> Working hours: </td> <td> {{ courier.working_hours }} </td> </tr>
+
+                {% for courier in couriers %}
+
+                <tr>
+
+                <td> {{ courier.courier_id }} </td>
+                <td> {{ courier.courier_type }} </td>
+                <td> {{ courier.regions }} </td>
+                <td> {{ courier.working_hours }} </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+
             </table>
-            <br>
-            {% endfor %}
 
 
 
@@ -38,19 +72,33 @@
             <br>
             <h2>Orders:</h2>
 
-            {% for order in orders %}
+            <table class='data-table'>
 
-            <table width="100%">
-                <tr><td width="20%"> Order ID: </td> <td> {{ order.order_id }} </td> </tr>
-                <tr><td> Weight: </td> <td> {{ order.weight }} </td> </tr>
-                <tr><td> Region: </td> <td> {{ order.region_id }} </td> </tr>
-                <tr><td> Is done: </td> <td> {{ order.is_ready }} </td> </tr>
-                <tr><td> Complete time: </td> <td> {{ order.complete_time }} </td> </tr>
-                <tr><td> Assigned courier: </td> <td> {{ order.assign_id }} </td> </tr>
-                <tr><td> Delivery hours: </td> <td> {{ order.delivery_hours }} </td> </tr>
-            </table>
-            <br>
+                <tr>
+                    <th>order_id</th>
+                    <th>weight</th>
+                    <th>region</th>
+                    <th>is done</th>
+                    <th>complete time</th>
+                    <th>assigned courier</th>
+                    <th>delivery hours</th>
+                </tr>
+
+            {% for order in orders %}
+            <tr>
+
+                <td> {{ order.order_id }} </td>
+                <td> {{ order.weight }} </td>
+                <td> {{ order.region_id }} </td>
+                <td> {{ order.is_ready }} </td>
+                <td> {{ order.complete_time }} </td>
+                <td> {{ order.assign_id }} </td>
+                <td> {{ order.delivery_hours }} </td>
+
+            </tr>
             {% endfor %}
+
+            </table>
 
         </div>
 
