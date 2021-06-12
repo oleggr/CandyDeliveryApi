@@ -361,3 +361,14 @@ class OrdersService(AbstractService):
                     order.order_id,
                     {'assign_id': self.default_assign_id}
                 )
+
+    async def get_orders(self):
+        orders = []
+        session = await self.get_session()
+        res = session.query(orders_table).all()
+
+        for order_row in res:
+            order = await self.get_order_full_data(order_row[0])
+            orders.append(order)
+
+        return orders

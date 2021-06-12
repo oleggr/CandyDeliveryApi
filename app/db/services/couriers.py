@@ -251,3 +251,14 @@ class CouriersService(AbstractService):
                 'end': working_band.end
             })
         )
+
+    async def get_couriers(self):
+        couriers = []
+        session = await self.get_session()
+        res = session.query(couriers_table).all()
+
+        for courier_row in res:
+            courier = await self.get_courier_full_data(courier_row[0])
+            couriers.append(courier)
+
+        return couriers
