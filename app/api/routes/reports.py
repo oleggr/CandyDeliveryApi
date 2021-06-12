@@ -1,6 +1,6 @@
 import io
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.openapi.models import Response
 from starlette import status
 from starlette.responses import JSONResponse, RedirectResponse, StreamingResponse, FileResponse
@@ -17,14 +17,24 @@ from xhtml2pdf import pisa
 
 
 router = APIRouter()
+templates = Jinja2Templates(directory="static")
 
 
 @router.get(
-    "/report",
+    "/reports",
+    name='web:couriers-menu',
+    status_code=status.HTTP_200_OK
+)
+async def get_couriers(request: Request):
+    return templates.TemplateResponse("reports_menu.html", {"request": request})
+
+
+@router.get(
+    "/report/pdf",
     name='reports:get-full-report',
     status_code=status.HTTP_200_OK
 )
-async def get_report():
+async def get_pdf_report():
 
     # добавить количество записей в отчет и диаграму (времени работы) или график
 
@@ -56,11 +66,11 @@ async def get_report():
 
 
 @router.get(
-    "/exel_report",
+    "/report/exel",
     name='reports:get-full-report',
     status_code=status.HTTP_200_OK
 )
-async def get_report():
+async def get_exel_report():
     couriers_service = CouriersService()
     orders_service = OrdersService()
 

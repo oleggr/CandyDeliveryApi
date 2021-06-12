@@ -10,6 +10,7 @@ from starlette.templating import Jinja2Templates
 from app.api.routes.couriers import get_courier
 from app.db.models.couriers import CourierFull
 
+
 router = APIRouter()
 templates = Jinja2Templates(directory="static")
 

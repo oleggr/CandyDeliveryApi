@@ -1,6 +1,6 @@
 {% block title %}
 
-<title>Просмотр курьера</title>
+<title>Главное меню</title>
 
 {% endblock %}
 
@@ -34,25 +34,17 @@
 
 {% block content %}
 
-<h1 align="center">Просмотр курьера</h1>
-
-<div align="center">
-<form action="http://localhost:8000/web/couriers/watch">
-    <label for="courier_id">Courier id: </label>
-    <input type="text" id="courier_id" name="courier_id" value=""><br><br>
-    <div class="btn-group">
-        <button type="submit" value="Submit">Показать</button>
-    </div>
-</form>
-</div>
-
-
+<h1 align="center">Главное меню</h1>
 
 <div class="btn-group">
-    <button onclick="window.location.href='http://localhost:8000/web/couriers';">Назад</button>
+    <button onclick="window.location.href='http://localhost:8000/report/pdf';">PDF Отчет</button>
+    <button onclick="window.location.href='http://localhost:8000/report/exel';">Exel Отчет</button>
+</div>
+
+<br>
+
+<div class="btn-group">
+    <button onclick="window.location.href='http://localhost:8000/web/main';">На главную</button>
 </div>
 
 {% endblock %}
-
-
-

@@ -27,6 +27,13 @@
     .btn-group button:hover {
         background-color: #3e8e41;
     }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
     </style>
 
 {% endblock %}
@@ -36,8 +43,8 @@
 
 <h1 align="center">Просмотр курьера</h1>
 
-<table width="100%">
-    <tr><td width="20%"> Courier ID: </td> <td> {{ courier.courier_id }} </td> </tr>
+<table width="50%">
+    <tr><td width="40%"> Courier ID: </td> <td> {{ courier.courier_id }} </td> </tr>
     <tr><td> Type: </td> <td> {{ courier.courier_type }} </td> </tr>
     <tr><td> Regions: </td> <td> {{ courier.regions }} </td> </tr>
     <tr><td> Working hours: </td> <td> {{ courier.working_hours }} </td> </tr>
