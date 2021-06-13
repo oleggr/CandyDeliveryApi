@@ -38,10 +38,31 @@
 
 <div align="center">
 <form action="http://localhost:8000/web/orders/complete">
-    <label for="courier_id">Номер курьера: </label>
-    <input type="text" id="courier_id" name="courier_id" value=""><br>
-    <label for="order_id">Номер заказа: </label>
-    <input type="text" id="order_id" name="order_id" value=""><br><br>
+
+    <table>
+
+        <tr>
+            <td>
+            <label for="courier_id">Номер курьера: </label>
+            </td>
+            <td>
+            <input type="text" id="courier_id" name="courier_id" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+            <label for="order_id">Номер заказа: </label>
+            </td>
+            <td>
+            <input type="text" id="order_id" name="order_id" value="">
+            </td>
+        </tr>
+
+    </table>
+
+    <br>
+
     <div class="btn-group">
         <button type="submit" value="Submit">Завершить</button>
     </div>
