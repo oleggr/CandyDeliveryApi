@@ -1,17 +1,14 @@
-import io
 import json
 import time
 
-from fastapi import APIRouter, Request, requests
-from fastapi.openapi.models import Response
+from fastapi import APIRouter, Request
 from starlette import status
-from starlette.responses import JSONResponse, RedirectResponse, StreamingResponse, FileResponse
 from starlette.templating import Jinja2Templates
 
 from app.api.routes.couriers import get_courier, _add_courier, _update_courier
 from app.api.routes.orders import complete_order, _assign_orders, _add_orders
 from app.db.models.couriers import CourierFull
-from app.db.services.couriers import CouriersService
+
 
 router = APIRouter()
 templates = Jinja2Templates(directory="static")
