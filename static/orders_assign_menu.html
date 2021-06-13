@@ -1,6 +1,6 @@
 {% block title %}
 
-<title>Меню заказов</title>
+<title>Назначить заказы</title>
 
 {% endblock %}
 
@@ -34,18 +34,22 @@
 
 {% block content %}
 
-<h1 align="center">О заказах</h1>
+<h1 align="center">Назначить заказы</h1>
 
-<div class="btn-group">
-    <button onclick="window.location.href='http://localhost:8000/web/orders/add/menu';">Сделать заказ</button>
-    <button onclick="window.location.href='http://localhost:8000/web/orders/assign/menu';">Назначить заказ</button>
-    <button onclick="window.location.href='http://localhost:8000/web/orders/complete/menu';">Завершить заказ</button>
+<div align="center">
+<form action="http://localhost:8000/web/orders/assign">
+    <label for="courier_id">Номер курьера: </label>
+    <input type="text" id="courier_id" name="courier_id" value=""><br><br>
+    <div class="btn-group">
+        <button type="submit" value="Submit">Назначить</button>
+    </div>
+</form>
 </div>
 
-<br>
+
 
 <div class="btn-group">
-    <button onclick="window.location.href='http://localhost:8000/web/main';">На главную</button>
+    <button onclick="window.location.href='http://localhost:8000/web/orders';">Назад</button>
 </div>
 
 {% endblock %}

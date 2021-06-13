@@ -18,12 +18,29 @@ router = APIRouter()
 )
 async def set_orders(request: Request):
     orders = await request.json()
+
+    code, msg = await _add_orders(orders['data'])
+
+    if code == 0:
+        return JSONResponse(
+            {'validation_error': {'orders': msg}},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if code == 1:
+        return JSONResponse(
+            {'orders': msg},
+            status_code=status.HTTP_201_CREATED,
+        )
+
+
+async def _add_orders(orders):
     to_create = []
     unfilled = []
 
     orders_service = OrdersService()
 
-    for order in orders['data']:
+    for order in orders:
         if 'region' in order:
             order['region_id'] = order['region']
             del order['region']
@@ -34,19 +51,13 @@ async def set_orders(request: Request):
             to_create.append({'id': order['order_id']})
 
     if len(unfilled) > 0:
-        return JSONResponse(
-            {'validation_error': {'orders': unfilled}},
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, unfilled
     else:
-        for order in orders['data']:
+        for order in orders:
             await orders_service.add_order(
                 OrderFull(**order)
             )
-        return JSONResponse(
-            {'orders': to_create},
-            status_code=status.HTTP_201_CREATED,
-        )
+        return 1, to_create
 
 
 @router.post(
@@ -55,10 +66,29 @@ async def set_orders(request: Request):
     status_code=status.HTTP_200_OK
 )
 async def assign_orders(request: Request):
-    assigned = []
     response = await request.json()
     courier_id = response['courier_id']
 
+    code, msg = await _assign_orders(courier_id)
+
+    if code == 0:
+        return JSONResponse(
+            {'value error': msg},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if code == 1:
+        return JSONResponse(
+            {
+                'orders': msg[0],
+                'assign_time': msg[1]
+            },
+            status_code=status.HTTP_200_OK,
+        )
+
+
+async def _assign_orders(courier_id):
+    assigned = []
     orders_service = OrdersService()
 
     try:
@@ -69,18 +99,9 @@ async def assign_orders(request: Request):
 
         assign_time = datetime.fromtimestamp(orders[1])
 
-        return JSONResponse(
-            {
-                'orders': assigned,
-                'assign_time': assign_time.isoformat()
-            },
-            status_code=status.HTTP_200_OK,
-        )
+        return 1, [assigned, assign_time.isoformat()]
     except ValueError as e:
-        return JSONResponse(
-            {'value error': str(e)},
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, str(e)
 
 
 @router.post(
@@ -89,7 +110,6 @@ async def assign_orders(request: Request):
     status_code=status.HTTP_200_OK
 )
 async def complete_orders(request: Request):
-    error_message = ''
     response = await request.json()
 
     courier_id = response['courier_id']
@@ -100,6 +120,23 @@ async def complete_orders(request: Request):
         .timestamp()
     )
 
+    code, msg = await complete_order(courier_id, order_id, complete_time)
+
+    if code == 0:
+        return JSONResponse(
+            {'value error': msg},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if code == 1:
+        return JSONResponse(
+            {'order_id': msg},
+            status_code=status.HTTP_200_OK,
+        )
+
+
+async def complete_order(courier_id, order_id, complete_time):
+    error_message = ''
     orders_service = OrdersService()
 
     order = await orders_service.get_order_by_id(order_id)
@@ -113,10 +150,7 @@ async def complete_orders(request: Request):
         error_message = 'order assigned to another courier'
 
     if error_message != '':
-        return JSONResponse(
-            {'value error': error_message},
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, error_message
 
     try:
         new_fields = {
@@ -138,12 +172,7 @@ async def complete_orders(request: Request):
             new_fields
         )
 
-        return JSONResponse(
-            {'order_id': order.order_id},
-            status_code=status.HTTP_200_OK,
-        )
+        return 1, order.order_id
+
     except ValueError as e:
-        return JSONResponse(
-            {'value error': str(e)},
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, str(e)

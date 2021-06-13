@@ -16,30 +16,42 @@ router = APIRouter()
 )
 async def set_couriers(request: Request):
     couriers = await request.json()
+
+    code, msg = await _add_courier(couriers['data'])
+
+    if code == 0:
+        return JSONResponse(
+            {'validation_error': {'couriers': msg}},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if code == 1:
+        return JSONResponse(
+            {'couriers': msg},
+            status_code=status.HTTP_201_CREATED,
+        )
+
+
+async def _add_courier(couriers):
     to_create = []
     unfilled = []
     couriers_service = CouriersService()
 
-    for courier in couriers['data']:
+    for courier in couriers:
         if not await couriers_service.is_courier_valid(courier):
             unfilled.append({'id': courier['courier_id']})
         else:
             to_create.append({'id': courier['courier_id']})
 
     if len(unfilled) > 0:
-        return JSONResponse(
-            {'validation_error': {'couriers': unfilled}},
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, unfilled
+
     else:
-        for courier in couriers['data']:
+        for courier in couriers:
             await couriers_service.add_courier(
                 CourierFull(**courier)
             )
-        return JSONResponse(
-            {'couriers': to_create},
-            status_code=status.HTTP_201_CREATED,
-        )
+        return 1, to_create
 
 
 @router.patch(
@@ -49,24 +61,34 @@ async def set_couriers(request: Request):
 )
 async def update_courier(courier_id: int, request: Request):
     update_fields = await request.json()
+    code, msg = await _update_courier(courier_id, update_fields)
+
+    if code == 0:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if code == 1:
+        return JSONResponse(
+            msg.dict(),
+            status_code=status.HTTP_201_CREATED,
+        )
+
+
+async def _update_courier(courier_id, update_fields):
     couriers_service = CouriersService()
     orders_service = OrdersService()
 
     if not await couriers_service.courier_update_validation(update_fields) \
             or not await couriers_service.get_courier_by_id(courier_id):
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
+        return 0, ""
 
     await couriers_service.update_courier(courier_id, update_fields)
     courier = await couriers_service.get_courier_full_data(courier_id)
 
     await orders_service.unassign_orders(courier)
 
-    return JSONResponse(
-        courier.dict(),
-        status_code=status.HTTP_201_CREATED,
-    )
+    return 1, courier
 
 
 @router.get(
