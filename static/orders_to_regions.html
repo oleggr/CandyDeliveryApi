@@ -1,0 +1,130 @@
+{% block title %}
+
+<title>Количество заказов в регионе</title>
+
+{% endblock %}
+
+
+{% block styles %}
+
+    <style>
+    .btn-group button {
+        background-color: #4CAF50; /* Green background */
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+        margin: auto;
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+        background-color: #3e8e41;
+    }
+
+    .bobby {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .header {
+        background-color: #f2f2f2;
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1 align="center">Количество заказов в регионе</h1>
+
+<div align="center">
+<form action="http://localhost:8000/web/orders/region">
+
+    <table>
+
+        <tr>
+            <td>
+            <label for="region_id">Регион: </label>
+            </td>
+            <td>
+            <input type="text" id="region_id" name="region_id" value="">
+            </td>
+        </tr>
+
+    </table>
+
+    <br>
+
+    <div class="btn-group">
+        <button type="submit" value="Submit">Поиск</button>
+    </div>
+</form>
+</div>
+
+
+
+<div class="btn-group">
+    <button onclick="window.location.href='http://localhost:8000/web/orders';">Назад</button>
+</div>
+
+<br>
+
+<div align="center">
+{% if orders %}
+    <p>Количество заказов в выбранном регионе: {{ count }} </p>
+{% endif %}
+</div>
+
+<br>
+
+<div align="center">
+    <table class="bobby" cellpadding="5">
+
+    {% if orders %}
+        <tr>
+        <td class="header"> Номер </td>
+        <td class="header"> Вес </td>
+        <td class="header"> Регион </td>
+        <td class="header"> Готов </td>
+        <td class="header"> Вермя завершения </td>
+        <td class="header"> Номер назначения </td>
+        <td class="header"> Время доствки </td>
+    </tr>
+    {% endif %}
+
+    {% for order in orders %}
+
+    <tr>
+        <td class="bobby"> {{ order.order_id }} </td>
+        <td class="bobby"> {{ order.weight }} </td>
+        <td class="bobby"> {{ order.region_id }} </td>
+        <td class="bobby"> {{ order.is_ready }} </td>
+        <td class="bobby"> {{ order.complete_time }} </td>
+        <td class="bobby"> {{ order.assign_id }} </td>
+        <td class="bobby"> {{ order.delivery_hours }} </td>
+    </tr>
+
+    {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
+
+
+
+
+

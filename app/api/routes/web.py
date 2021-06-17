@@ -8,7 +8,7 @@ from starlette.templating import Jinja2Templates
 from app.api.routes.couriers import get_courier, _add_courier, _update_courier
 from app.api.routes.orders import complete_order, _assign_orders, _add_orders
 from app.db.models.couriers import CourierFull
-
+from app.db.services.orders import OrdersService
 
 router = APIRouter()
 templates = Jinja2Templates(directory="static")
@@ -115,6 +115,23 @@ async def add_orders(
     ])
 
     return templates.TemplateResponse("orders_menu.html", {"request": request})
+
+
+@router.get(
+    "/orders/region",
+    name='web:orders-region',
+    status_code=status.HTTP_200_OK
+)
+async def orders_to_regions(request: Request, region_id=-1):
+    orders = await OrdersService().get_orders_by_regions(region_id)
+    return templates.TemplateResponse(
+        "orders_to_regions.html",
+        {
+            "request": request,
+            "orders": orders,
+            "count": len(orders)
+        }
+    )
 
 
 @router.get(

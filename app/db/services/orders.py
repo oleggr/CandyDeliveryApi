@@ -372,3 +372,17 @@ class OrdersService(AbstractService):
             orders.append(order)
 
         return orders
+
+    async def get_orders_by_regions(self, region_id):
+        orders = []
+
+        session = await self.get_session()
+        res = session.query(orders_table) \
+            .filter(orders_table.c.region_id.in_([region_id])) \
+            .all()
+
+        for order_row in res:
+            order = await self.get_order_full_data(order_row[0])
+            orders.append(order)
+
+        return orders

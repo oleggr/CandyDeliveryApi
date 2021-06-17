@@ -82,28 +82,16 @@ async def get_exel_report():
 
     data = []
 
-    data.append(["Курьеры", ""])
-    data.append(["Параметр", "Значение"])
+    data.append(["Курьеры", "", "", ""])
+    data.append(['номер курьера', 'тип курьера', 'регионы', 'рабочие часы'])
 
     for courier in couriers:
-        data.append(['номер курьера', courier.courier_id])
-        data.append(['тип курьера', courier.courier_type])
-        data.append(['регионы', ";".join(str(courier.regions))])
-        data.append(['рабочие часы', ";".join(courier.working_hours)])
-        data.append(["", ""])
-
-    data.append(["Заказы", ""])
-    data.append(["Параметр", "Значение"])
-
-    for order in orders:
-        data.append(['номер заказа', order.order_id])
-        data.append(['вес', order.weight])
-        data.append(['регион', order.region_id])
-        data.append(['выполнен', order.is_ready])
-        data.append(['время завершения', order.complete_time])
-        data.append(['назначенный курьер', order.assign_id])
-        data.append(['время доставки', ";".join(order.delivery_hours)])
-        data.append(["", ""])
+        data.append([
+            courier.courier_id,
+            courier.courier_type,
+            ";".join(str(courier.regions)),
+            ";".join(courier.working_hours)
+        ])
 
     workbook = xlsxwriter.Workbook(f'{dt_string}.xlsx')
     worksheet = workbook.add_worksheet()
@@ -112,10 +100,45 @@ async def get_exel_report():
     row = 0
     col = 0
 
+    for courier_id, courier_type, regions, working_hours in data:
+        worksheet.write(row, col, courier_id)
+        worksheet.write(row, col + 1, courier_type)
+        worksheet.write(row, col + 2, regions)
+        worksheet.write(row, col + 3, working_hours)
+        row += 1
+
+    data = []
+    data.append(["Заказы", "", "", "", "", "", ""])
+    data.append([
+        'номер заказа',
+        'вес',
+        'регион',
+        'выполнен',
+        'время завершения',
+        'назначенный курьер',
+        'время доставки'
+    ])
+
+    for order in orders:
+        data.append([
+            order.order_id,
+            order.weight,
+            order.region_id,
+            order.is_ready,
+            order.complete_time,
+            order.assign_id,
+            ";".join(order.delivery_hours)
+        ])
+
     # Iterate over the data and write it out row by row.
-    for item, val in (data):
-        worksheet.write(row, col, item)
-        worksheet.write(row, col + 1, val)
+    for order_id, weight, region_id, is_ready, complete_time, assign_id, delivery_hours in data:
+        worksheet.write(row, col, order_id)
+        worksheet.write(row, col + 1, weight)
+        worksheet.write(row, col + 2, region_id)
+        worksheet.write(row, col + 3, is_ready)
+        worksheet.write(row, col + 4, complete_time)
+        worksheet.write(row, col + 5, assign_id)
+        worksheet.write(row, col + 6, delivery_hours)
         row += 1
 
     new_data = [
@@ -132,7 +155,7 @@ async def get_exel_report():
             {'fill': {'color': 'red'}},
         ],
     })
-    worksheet.insert_chart('D1', chart)
+    worksheet.insert_chart('I1', chart)
 
     for item, val in (new_data):
         worksheet.write(row, col, item)
