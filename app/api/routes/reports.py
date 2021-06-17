@@ -153,8 +153,8 @@ async def get_exel_report():
         'categories': f'=Sheet1!$A${row + 1}:$A${row + 2}',
         'values': f'=Sheet1!$B${row + 1}:$B${row + 2}',
         'points': [
-            {'fill': {'color': 'green'}},
-            {'fill': {'color': 'red'}},
+            {'fill': {'color': 'yellow'}},
+            {'fill': {'color': 'cyan'}},
         ],
     })
     worksheet.insert_chart('I1', chart)
