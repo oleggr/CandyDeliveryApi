@@ -1,0 +1,74 @@
+{% block title %}
+
+<title>Удалить заказ</title>
+
+{% endblock %}
+
+
+{% block styles %}
+
+    <style>
+    .btn-group button {
+        background-color: #4CAF50; /* Green background */
+        border: 1px solid green; /* Green border */
+        color: white; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+        margin: auto;
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    /* Add a background color on hover */
+    .btn-group button:hover {
+        background-color: #3e8e41;
+    }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1 align="center">Удалить заказ</h1>
+
+<div align="center">
+<form action="http://localhost:8000/web/orders/delete">
+
+    <table>
+
+        <tr>
+            <td>
+            <label for="order_id">Номер заказа: </label>
+            </td>
+            <td>
+            <input type="text" id="order_id" name="order_id" value=""><br>
+            </td>
+        </tr>
+
+    </table>
+
+    <br>
+
+    <div class="btn-group">
+        <button type="submit" value="Submit">Удалить</button>
+    </div>
+</form>
+</div>
+
+
+
+<div class="btn-group">
+    <button onclick="window.location.href='http://localhost:8000/web/orders';">Назад</button>
+</div>
+
+{% endblock %}
+
+
+
+
+

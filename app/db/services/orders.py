@@ -402,3 +402,14 @@ class OrdersService(AbstractService):
             orders.append(order)
 
         return orders
+
+    async def drop_order(self, order_id):
+        await self.execute(
+            orders_table.delete()
+                .where(orders_table.c.order_id == order_id)
+        )
+
+        await self.execute(
+            delivery_bands_table.delete()
+                .where(delivery_bands_table.c.order_id == order_id)
+        )

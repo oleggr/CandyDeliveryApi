@@ -118,6 +118,29 @@ async def add_orders(
 
 
 @router.get(
+    "/orders/delete/menu",
+    name='web:orders-delete-menu',
+    status_code=status.HTTP_200_OK
+)
+async def add_orders(request: Request):
+    return templates.TemplateResponse("orders_delete_menu.html", {"request": request})
+
+
+@router.get(
+    "/orders/delete",
+    name='web:orders-delete',
+    status_code=status.HTTP_200_OK
+)
+async def add_orders(
+        order_id,
+        request: Request
+):
+    await OrdersService().drop_order(order_id)
+
+    return templates.TemplateResponse("orders_menu.html", {"request": request})
+
+
+@router.get(
     "/orders/region",
     name='web:orders-region',
     status_code=status.HTTP_200_OK
