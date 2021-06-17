@@ -26,7 +26,7 @@ class OrderAssign(BaseModel):
     assign_id: int = None
     courier_id: int
     assign_time: int
-    is_finished: bool = None
+    is_finished: bool = False
 
     @validator('courier_id')
     def id_validation(cls, v: int):

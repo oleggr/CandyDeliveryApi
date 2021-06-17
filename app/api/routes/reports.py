@@ -43,6 +43,7 @@ async def get_pdf_report():
 
     couriers = await couriers_service.get_couriers()
     orders = await orders_service.get_orders()
+    assignitions = await orders_service.get_assigintions()
 
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y_%H-%M-%S")
@@ -53,6 +54,7 @@ async def get_pdf_report():
     template_vars = {
         'couriers': couriers,
         'orders': orders,
+        'assignitions': assignitions,
         'datetime': dt_string
     }
 

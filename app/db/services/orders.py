@@ -373,6 +373,22 @@ class OrdersService(AbstractService):
 
         return orders
 
+    async def get_assigintions(self):
+        assigintions = []
+        session = await self.get_session()
+        res = session.query(orders_assign_table).all()
+
+        for assigin_row in res:
+            assigin = OrderAssign(
+                assign_id=assigin_row[0],
+                courier_id=assigin_row[1],
+                assign_time=assigin_row[2],
+                is_finished=assigin_row[3],
+            )
+            assigintions.append(assigin)
+
+        return assigintions
+
     async def get_orders_by_regions(self, region_id):
         orders = []
 

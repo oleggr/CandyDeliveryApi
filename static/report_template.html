@@ -38,6 +38,7 @@
         </div>
 
         <hr>
+        <br>
 
         <div class="container">
             <h2>Couriers:</h2>
@@ -80,7 +81,7 @@
                     <th>region</th>
                     <th>is done</th>
                     <th>complete time</th>
-                    <th>assigned courier</th>
+                    <th>assignition_id</th>
                     <th>delivery hours</th>
                 </tr>
 
@@ -102,6 +103,36 @@
 
         </div>
 
+        <div class="container">
+            <br>
+            <h2>Assignitions:</h2>
+
+            <table class='data-table'>
+
+                <tr>
+                    <th>    assign_id   </th>
+                    <th>    courier_id  </th>
+                    <th>    assign_time </th>
+                    <th>    is_finished </th>
+                </tr>
+
+            {% for assign in assignitions %}
+            <tr>
+
+                <td> {{ assign.assign_id }} </td>
+                <td> {{ assign.courier_id }} </td>
+                <td> {{ assign.assign_time }} </td>
+                <td> {{ assign.is_finished }} </td>
+
+            </tr>
+            {% endfor %}
+
+            </table>
+
+        </div>
+
+        <br>
+        <br>
         <hr>
 
         <div class="container">
